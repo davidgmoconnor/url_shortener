@@ -22,16 +22,17 @@ describe("createLink", () => {
   beforeAll(async () => {
     await db.connect();
     server = createServer(false);
-
-    await generateTestData();
     sandbox = sinon.createSandbox();
   });
+  beforeEach(async () => {
+    await generateTestData();
+  });
 
-  afterEach(() => {
+  afterEach(async () => {
+    await purgeTestData();
     sandbox.restore();
   });
   afterAll(async () => {
-    await purgeTestData();
     await db.close();
   });
 
@@ -45,6 +46,28 @@ describe("createLink", () => {
     expect(link.url).toBe("http://www.test.com");
     expect(link.shortFormUrl).toContain("https://pbid.io/");
     expect(link.shortFormUrl.split("https://pbid.io/")[1]).toMatch(/[a-z0-9]+/);
+  });
+
+  it("returns errors if not a url as input", async () => {
+    const response = await makeMutation(server, {
+      url: "not a valid url",
+    });
+    expect(response.status).toBe(200);
+
+    expect(response.body.errors).toBeDefined();
+    expect(response.body.errors.length).toBe(1);
+    expect(response.body.errors[0].message).toBe("Malformed URL");
+  });
+
+  it("returns existing link if already exists", async () => {
+    const response = await makeMutation(server, {
+      url: "https://www.adam.com",
+    });
+    expect(response.status).toBe(200);
+    const link = response.body?.data?.createLink;
+
+    expect(link.url).toBe("https://www.adam.com");
+    expect(link.shortFormUrl).toBe("https://pbid.io/abcdefg");
   });
 
   describe("when mocking randomness", () => {
@@ -62,14 +85,14 @@ describe("createLink", () => {
       expect(link.shortFormUrl).toBe("https://pbid.io/12345678");
     });
 
-    it("throws an error if no available", async () => {
+    it("throws an error if no available short form generated", async () => {
       try {
-        await createLinkWithDeps({
+        const response = await createLinkWithDeps({
           randomString: () => "https://pbid.io/abcdefg",
         })({
           url: "http://www.test.com",
         });
-        expect(false).toEqual(true); // should not get here
+        expect(response).not.toBeDefined();
       } catch (error) {
         expect(error.message).toBe("Error creating link");
       }

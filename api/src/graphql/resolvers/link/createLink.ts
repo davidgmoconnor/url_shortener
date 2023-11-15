@@ -13,6 +13,15 @@ type Deps = {
 export const createLinkWithDeps =
   ({ randomString }: Deps) =>
   async ({ url }: CreateLinkPayload): Promise<ILink> => {
+    if (!isValidUrl(url)) {
+      throw new Error("Malformed URL");
+    }
+
+    const [existingLink] = await Link.find({ url });
+    if (existingLink) {
+      return existingLink;
+    }
+
     try {
       const candidates = Array.from({ length: 10 }, randomString);
       const existingRecords = await Link.find({
@@ -38,5 +47,14 @@ export const createLinkWithDeps =
 
 const randomString = () =>
   `https://pbid.io/${(randomUUID() as string).substring(0, 8)}`;
+
+function isValidUrl(input: string) {
+  try {
+    new URL(input);
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
 
 export const createLink = createLinkWithDeps({ randomString });

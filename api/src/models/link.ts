@@ -1,8 +1,8 @@
 import mongoose, { Document } from "mongoose";
 
 export interface ILink extends Document {
-  url: string,
-  shortFormUrl: string
+  url: string;
+  shortFormUrl: string;
 }
 
 const linkSchema = new mongoose.Schema<ILink>({
