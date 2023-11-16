@@ -1,30 +1,24 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import "./App.css";
-require("dotenv").config();
 import { makeClient } from "./client";
+import { List, Create } from "./pages";
+import Text from "./components/Text";
+import { ClientContext } from "./client/Context";
 
 function App() {
-  const baseUrl = process.env.api_endpoint;
-  const client = makeClient(baseUrl ?? "");
+  const baseUrl = process.env.REACT_APP_ENDPOINT;
+  const client = makeClient("http://localhost:8080");
+  const [stale, setStale] = useState(false);
 
-  const query = `
-        query GetLinks($start: Float!, $end: Float!, $filter: String) {
-            getLinks(start: $start, end: $end, filter: $filter) {
-              items {
-                url
-                shortFormUrl
-              }
-              total
-            }
-        }
-    `;
-
-  const data = client.makeRequest(query, { start: 0, end: 8 });
-  console.log({ data });
+  const toggleStale = () => setStale(!stale);
 
   return (
     <div className="App">
-      <header className="App-header">SSomething</header>
+      <ClientContext.Provider value={client}>
+        <Text variant="title">Primary Bid URL Shortener</Text>
+        <Create onSuccess={toggleStale} />
+        <List stale={stale} />
+      </ClientContext.Provider>
     </div>
   );
 }

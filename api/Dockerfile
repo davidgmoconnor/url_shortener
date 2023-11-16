@@ -3,8 +3,10 @@
 FROM node:18-alpine as build
 
 WORKDIR /app
-COPY . .
+COPY package.json yarn.lock .
 RUN yarn install
+
+COPY . .
 
 RUN yarn tsc
 
@@ -14,7 +16,7 @@ FROM node:18-alpine as release
 
 WORKDIR /app
 
-COPY package.json yarn.lock 
+COPY package.json yarn.lock .
 
 RUN yarn install --production
 

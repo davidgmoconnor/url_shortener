@@ -2,8 +2,10 @@ import axios from "axios";
 
 export const makeClient = (baseUrl: string) => {
   const makeRequest = async (query: string, variables: any) => {
+    const url = `${baseUrl}/graphql`;
+    console.log({ url });
     return axios.request({
-      url: `${baseUrl}/graphql`,
+      url,
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -20,3 +22,5 @@ export const makeClient = (baseUrl: string) => {
     makeRequest,
   };
 };
+
+export type Client = ReturnType<typeof makeClient>;

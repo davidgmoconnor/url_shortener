@@ -8,18 +8,24 @@ services:
   #     - "3000:3000"
   #   depends_on:
   #     - api
-  #   environment:
-  #     - api_endpoint=http://api:8080
-
-  # api:
-  #   build: ./api
-  #   image: api
-  #   ports:
-  #     - "8080:8080"
-  #   depends_on:
-  #     - mongodb
   #   networks:
-  #     - node-network
+  #     - frontend
+  #   environment:
+  #     - REACT_APP_ENDPOINT=http://api:8080
+
+  api:
+    build: ./api
+    image: api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+    networks:
+      - backend
+      - frontend
+    environment:
+      - PORT=8080
+      - MONGODB_URL=mongodb://mongodb:27017
 
   mongodb:
     image: mongo:6-jammy
@@ -28,11 +34,11 @@ services:
     volumes:
       - dbdata6:/data/db
     networks:
-      - node-network
+      - backend
 
 volumes:
   dbdata6:
 
 networks:
-  node-network:
-    driver: bridge
+  backend:
+  frontend:

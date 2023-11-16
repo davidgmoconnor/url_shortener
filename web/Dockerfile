@@ -9,4 +9,6 @@ RUN yarn install --production
 
 EXPOSE 3000
 
+ARG REACT_APP_ENDPOINT
+
 CMD ["yarn", "start"]
