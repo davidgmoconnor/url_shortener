@@ -1,17 +1,17 @@
 version: "3.8"
 
 services:
-  # web:
-  #   build: ./web
-  #   image: web
-  #   ports:
-  #     - "3000:3000"
-  #   depends_on:
-  #     - api
-  #   networks:
-  #     - frontend
-  #   environment:
-  #     - REACT_APP_ENDPOINT=http://api:8080
+  web:
+    build: ./web
+    image: web
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    networks:
+      - frontend
+    environment:
+      - REACT_APP_ENDPOINT=http://api:8080
 
   api:
     build: ./api
