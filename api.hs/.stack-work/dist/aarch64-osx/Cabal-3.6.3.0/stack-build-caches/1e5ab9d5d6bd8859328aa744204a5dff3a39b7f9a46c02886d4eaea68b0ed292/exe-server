@@ -1,0 +1,22 @@
+/Users/davidoconnor/.stack/programs/aarch64-osx/ghc-9.2.8/lib/ghc-9.2.8/lib/aarch64-osx-ghc-9.2.8/rts-1.0.2/include/ghcversion.h:
+  hash: 9fa7b57985804bb87ace2b7e702757d585d941ffb7ae2bd8c140e62bfaa97a80
+/Users/davidoconnor/primary/api.hs/.stack-work/dist/aarch64-osx/Cabal-3.6.3.0/build/server/autogen/Paths_primary_server.hs:
+  hash: 4294ba865db63bf3e095a142d9e6e25415256c9c0763fae3797660e52e839a59
+/Users/davidoconnor/primary/api.hs/.stack-work/dist/aarch64-osx/Cabal-3.6.3.0/build/server/autogen/cabal_macros.h:
+  hash: 5c4203387c4fa81ab35c01cc81a417aed535fa9ea94636544138c755ac57a3b8
+/Users/davidoconnor/primary/api.hs/package.yaml:
+  hash: 625ad4669671b7dbf5645c3bb52524a414547d08f3f14328eead41ff6bd72038
+/Users/davidoconnor/primary/api.hs/primary-server.cabal:
+  hash: 0fbbab96cd4c26b3f80841861bc5cd1421b3ad5f109bd4ba5cc89fddae9d595c
+/Users/davidoconnor/primary/api.hs/src/app/App.hs:
+  hash: 8e16e47950003144cae268ca93a35ea1aa0868c276bd9f6d6c03429fe3467f62
+/Users/davidoconnor/primary/api.hs/src/app/Context.hs:
+  hash: 9faa053e015705b11b1550c80d92bbb7429cb7d8a272208088e29ea6c95d981b
+/Users/davidoconnor/primary/api.hs/src/app/Http/Routes/ListLinks.hs:
+  hash: bbec31cde2c58f1f513fb57bbf209ae38d1eb70dffb51171a0ebbd964b25ff8f
+/Users/davidoconnor/primary/api.hs/src/app/Http/Server.hs:
+  hash: e2ab274acfa8628d58946435bedb7f82dfa9126757c68f596a881f39dc1e522d
+/Users/davidoconnor/primary/api.hs/src/app/Main.hs:
+  hash: b4f68646be6a507d8f992ee6861998035ebb032995f983c3a3ba9fe6cc134b4c
+/Users/davidoconnor/primary/api.hs/src/app/Read/ListLinks.hs:
+  hash: 57d0f43a07d156c12467aa51ebbd10b1dc3a2906c819faecf57573f6c5c9ceeb
