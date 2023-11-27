@@ -13,7 +13,7 @@ import Core.Shared.Types ( Link (..) )
 -- common
 ------------------------------------------------------------------------
 
-data Slice a = Slice { total :: Int, items :: [a] }
+data Slice a = Slice {  items :: [a], total :: Int }
   deriving (Eq, Show, Generic)
 
 instance (FromJSON a) => FromJSON (Slice a) where 
@@ -24,7 +24,7 @@ instance (ToJSON a) => ToJSON (Slice a) where
   toEncoding = genericToEncoding $ options ""
 
 instance Functor Slice where 
-  fmap g s = Slice (total s) (map g (items s))
+  fmap g s = Slice (map g (items s)) (total s)
 
 -- Link
 ------------------------------------------------------------------------

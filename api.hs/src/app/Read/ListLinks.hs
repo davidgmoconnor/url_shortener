@@ -2,11 +2,14 @@ module Read.ListLinks
   (listLinks)
 where
 
-import Protolude
+import Protolude hiding (find)
 import Control.Monad.Catch ( MonadCatch )
-import Core.Shared.Types ( ServiceError (..), Link (..))
+import Core.Shared.Types ( ServiceError (..), Link, toLink )
 import Core.Shared.Dto ( Slice (..) )
 import Context ( Context)
+import Database.MongoDB
+import Services.Database ( query, hoistDbError )
+import GHC.Float (castFloatToWord32)
 
 
 listLinks 
@@ -18,11 +21,10 @@ listLinks
   -> Maybe Text 
   -> ExceptT ServiceError m (Slice Link)
 
-listLinks _ _ _ = do 
-    return Slice {
-        items = [Link {
-            linkUrl = "http://google.com",
-            linkShortFormUrl = "pbid.com/abcdefg"
-        }],
-        total = 1
-    }
+listLinks start end filter = do 
+    let stmt = case filter of
+                Nothing -> select [] "links"
+                Just f -> select ["url" =: f] "links"
+    xs <- query $ find stmt { sort = ["url" =: (1 :: Int)], skip = castFloatToWord32 start, limit = castFloatToWord32 end}
+    let links = catMaybes $ map toLink xs in
+      hoistDbError $ Slice <$> (Right links ) <*> (Right $ length xs)

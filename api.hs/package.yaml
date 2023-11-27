@@ -64,6 +64,8 @@ dependencies:
   - unordered-containers
   - qm-interpolated-string
   - errors
+  - bson
+  - mongoDB
 
 library:
   source-dirs: src/lib

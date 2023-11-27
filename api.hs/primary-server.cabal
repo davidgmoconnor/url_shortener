@@ -58,11 +58,13 @@ library
   build-depends:
       aeson
     , base
+    , bson
     , data-default
     , errors
     , exceptions
     , http-api-data
     , lens
+    , mongoDB
     , mtl
     , protolude
     , qm-interpolated-string
@@ -83,6 +85,7 @@ executable server
       Http.Routes.ListLinks
       Http.Server
       Read.ListLinks
+      Services.Database
       Paths_primary_server
   hs-source-dirs:
       src/app
@@ -124,6 +127,7 @@ executable server
   build-depends:
       aeson
     , base
+    , bson
     , data-default
     , errors
     , exceptions
