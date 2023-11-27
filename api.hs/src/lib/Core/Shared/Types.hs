@@ -20,9 +20,8 @@ toLink d = do
   u <- lookup "url" d
   s <- lookup "shortFormUrl" d
   case (u,s) of 
-    (Nothing, _) -> Nothing
-    (_, Nothing) -> Nothing
     (Just a, Just b) -> Just $ Link a b
+    (_, _) -> Nothing
 
 -- Errors
 ------------------------------------------------------------------------
