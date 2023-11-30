@@ -1,7 +1,9 @@
 module Services.Database (
-    query ,
+    query,
+    runCount,
     dbErr,
-    hoistDbError
+    hoistDbError,
+    fromDocument
 ) where
 
 import Protolude 
@@ -24,6 +26,18 @@ query q = do
   pipe <- asks contextDb
   handleExceptT handler $ access pipe master db (rest =<< q)
 
+runCount
+  :: MonadIO m 
+  => MonadCatch m 
+  => MonadReader Context m
+  => Action m Int 
+  -> ExceptT ServiceError m Int
+
+runCount q = do
+  let db = "test"
+  pipe <- asks contextDb
+  handleExceptT handler $ access pipe master db q
+
 handler :: SomeException -> ServiceError 
 handler = Database . DatabaseUnknownError . show
 
@@ -32,3 +46,10 @@ dbErr = Database . DatabaseUnknownError
 
 hoistDbError :: Monad m => Either Text a -> ExceptT ServiceError m a 
 hoistDbError = hoistEither . fmapL dbErr
+
+fromDocument :: Text -> (Document -> Maybe a) -> [Document] -> Either Text [a] -> Either Text [a]
+fromDocument _ _ [] y = y 
+fromDocument _ _ _ (Left y) = Left y
+fromDocument t f (x:xs) (Right ys) = case f x of 
+                                    Just v -> fromDocument t f xs $ Right $ ys ++ [v]
+                                    Nothing -> Left $ "Invalid Document: " <> t
